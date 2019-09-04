@@ -9,10 +9,10 @@ const server = require('http').createServer((req, res) => {
   res.setHeader('Access-Control-Request-Method', '*')
   res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET')
   res.setHeader('Access-Control-Allow-Headers', '*')
+
   if (req.method === 'OPTIONS') {
     res.writeHead(200)
     res.end()
-    return
   }
 
   // ...
@@ -30,9 +30,17 @@ io.on('connection', client => {
   client.on('connectTraffic', slug => {
     client.join(`tl_${slug}`)
   })
+
+  client.on('alterState', data => {
+    const { slug, state } = data
+    data = JSON.stringify({ slug, run: state })
+
+    mqttClient.publish('st/cross', Buffer.from(data, 'utf-8').toString('base64'))
+  })
 })
 
 mqttClient.subscribe('st/traffic_light')
+mqttClient.subscribe('st/cross')
 
 mqttClient.on('message', (topic, message, packet) => {
   const base64 = Buffer.from(message).toString('ascii')
@@ -46,4 +54,4 @@ mqttClient.on('message', (topic, message, packet) => {
   }
 })
 
-server.listen(process.env.PORT || 8080)
+server.listen(process.env.PORT || 8000)
