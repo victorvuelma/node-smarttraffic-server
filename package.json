@@ -16,6 +16,7 @@
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.2"
+    "nodemon": "^1.19.2",
+    "standard": "^14.3.0"
   }
 }
