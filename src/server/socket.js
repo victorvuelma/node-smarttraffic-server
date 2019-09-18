@@ -17,8 +17,8 @@ const socketServer = (app) => {
 
   this.io = io
 
-  this.emit = (topic, payload) => {
-    this.io.in(topic).emit({ ...payload })
+  this.emit = (topic, action, payload) => {
+    this.io.sockets.in(topic).emit(action, payload)
   }
 
   return this
