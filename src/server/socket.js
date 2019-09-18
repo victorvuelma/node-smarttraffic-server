@@ -16,5 +16,11 @@ const socketServer = (app) => {
   })
 
   this.io = io
+
+  this.emit = (topic, payload) => {
+    this.io.in(topic).emit({ ...payload })
+  }
+
+  return this
 }
 module.exports = socketServer

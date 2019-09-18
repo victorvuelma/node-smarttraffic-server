@@ -15,7 +15,7 @@ const mqttClient = (app) => {
     switch (topic) {
       case 'st/traffic_light':
         app.states[payload.slug] = payload.state
-        app.socket.sockets.in(`tl_${payload.slug}`).emit(payload.action, payload.state)
+        app.socket.emit(`tl_${payload.slug}`, payload)
 
         break
     }
