@@ -3,6 +3,9 @@ dotenv.config()
 
 const app = () => {
   this.http = require('./server/http')
+
+  this.mongodb = require('./database/mongodb')
+
   this.socket = require('./server/socket')(this)
   this.mqtt = require('./client/mqtt')(this)
 
