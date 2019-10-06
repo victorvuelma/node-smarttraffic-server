@@ -12,6 +12,9 @@ const mqttClient = (app) => {
     const buff = Buffer.from(base64, 'base64').toString('ascii')
     const payload = JSON.parse(buff.toString('ascii'))
 
+    app.mongodb.insert(topic.substring(3), payload)
+
+    console.log(payload)
     switch (topic) {
       case 'st/traffic_light':
         app.states[payload.slug] = payload
@@ -22,6 +25,7 @@ const mqttClient = (app) => {
   })
 
   this.client.subscribe('st/traffic_light')
+  this.client.subscribe('st/traffic_sensor')
   this.client.subscribe('st/cross')
 
   this.publish = async (channel, payload) => {
