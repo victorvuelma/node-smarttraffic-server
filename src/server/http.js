@@ -10,7 +10,13 @@ const server = http.createServer((req, res) => {
   if (req.method === 'OPTIONS') {
     res.writeHead(200)
     res.end()
+    return
   }
+
+  res.writeHead(301,
+    { Location: process.env.REACT_URL }
+  )
+  res.end()
 })
 
 module.exports = server
